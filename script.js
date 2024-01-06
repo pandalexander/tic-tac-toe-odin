@@ -10,8 +10,6 @@ const gameBoard = (function () {
   return { boardMatrix };
 })();
 
-console.table(gameBoard.boardMatrix);
-
 const playerOne = (function () {
   const name = "Player One";
   const symbol = "X";
@@ -91,3 +89,7 @@ const markSpace = (function () {
     bottomRight,
   };
 })();
+
+const displayBoard = function () {
+  console.table(gameBoard.boardMatrix);
+};
