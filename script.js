@@ -93,3 +93,89 @@ const markSpace = (function () {
 const displayBoard = function () {
   console.table(gameBoard.boardMatrix);
 };
+
+const checkForWin = function () {
+  const topLeft = gameBoard.boardMatrix[0][0];
+  const topMiddle = gameBoard.boardMatrix[0][1];
+  const topRight = gameBoard.boardMatrix[0][2];
+  const left = gameBoard.boardMatrix[1][0];
+  const middle = gameBoard.boardMatrix[1][1];
+  const right = gameBoard.boardMatrix[1][2];
+  const bottomLeft = gameBoard.boardMatrix[2][0];
+  const bottomMiddle = gameBoard.boardMatrix[2][1];
+  const bottomRight = gameBoard.boardMatrix[2][2];
+
+  // Row Wins
+  if (topLeft === topMiddle && topMiddle === topRight) {
+    if (topLeft === "X") {
+      console.log("Player One Wins!");
+    }
+    if (topLeft === "O") {
+      console.log("Player Two Wins!");
+    }
+  }
+
+  if (left === middle && middle === right) {
+    if (left === "X") {
+      console.log("Player One Wins!");
+    }
+    if (left === "O") {
+      console.log("Player Two Wins!");
+    }
+  }
+
+  if (bottomLeft === bottomMiddle && bottomMiddle === bottomRight) {
+    if (bottomLeft === "X") {
+      console.log("Player One Wins!");
+    }
+    if (bottomLeft === "O") {
+      console.log("Player Two Wins!");
+    }
+  }
+
+  // Column Wins
+  if (topLeft === left && left === bottomLeft) {
+    if (topLeft === "X") {
+      console.log("Player One Wins!");
+    }
+    if (topLeft === "O") {
+      console.log("Player Two Wins!");
+    }
+  }
+
+  if (topMiddle === middle && middle === bottomMiddle) {
+    if (topMiddle === "X") {
+      console.log("Player One Wins!");
+    }
+    if (topMiddle === "O") {
+      console.log("Player Two Wins!");
+    }
+  }
+
+  if (topRight === right && right === bottomRight) {
+    if (topRight === "X") {
+      console.log("Player One Wins!");
+    }
+    if (topRight === "O") {
+      console.log("Player Two Wins!");
+    }
+  }
+
+  // Diagonal Wins
+  if (topLeft === middle && middle === bottomRight) {
+    if (topLeft === "X") {
+      console.log("Player One Wins!");
+    }
+    if (topLeft === "O") {
+      console.log("Player Two Wins!");
+    }
+  }
+  if (topRight === middle && middle === bottomLeft) {
+    if (topRight === "X") {
+      console.log("Player One Wins!");
+    }
+    if (topRight === "O") {
+      console.log("Player Two Wins!");
+    }
+  }
+};
