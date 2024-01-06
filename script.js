@@ -10,4 +10,16 @@ const gameBoard = (function () {
   return { boardMatrix };
 })();
 
-console.log(gameBoard.boardMatrix);
+console.table(gameBoard.boardMatrix);
+
+const playerOne = (function () {
+  const name = "Player One";
+  const symbol = "X";
+  return { name, symbol };
+})();
+
+const playerTwo = (function () {
+  const name = "Player Two";
+  const symbol = "O";
+  return { name, symbol };
+})();
