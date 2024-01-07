@@ -13,13 +13,15 @@ const gameBoard = (function () {
 const playerOne = (function () {
   const name = "Player One";
   const symbol = "X";
-  return { name, symbol };
+  const active = true;
+  return { name, symbol, active };
 })();
 
 const playerTwo = (function () {
   const name = "Player Two";
   const symbol = "O";
-  return { name, symbol };
+  const active = false;
+  return { name, symbol, active };
 })();
 
 const markSpace = (function () {
@@ -187,3 +189,35 @@ const checkForWin = function () {
     }
   }
 };
+
+function changeActivePlayer() {
+  function countNumbers(matrix) {
+    let count = 0;
+
+    // Iterate through each row of the matrix
+    for (let i = 0; i < matrix.length; i++) {
+      // Iterate through each element in the row
+      for (let j = 0; j < matrix[i].length; j++) {
+        // Check if the element is a number
+        if (typeof matrix[i][j] === "number") {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
+
+  console.log(gameBoard.boardMatrix);
+
+  let numberCount = countNumbers(gameBoard.boardMatrix);
+  if (numberCount % 2) {
+    playerOne.active = true;
+    playerTwo.active = false;
+  } else {
+    playerOne.active = false;
+    playerTwo.active = true;
+  }
+  console.log(numberCount);
+  console.log(playerOne.active);
+  console.log(playerTwo.active);
+}
