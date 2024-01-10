@@ -12,6 +12,18 @@ const gameBoard = (function () {
   };
 })();
 
+const displayBoard = function () {
+  console.table(gameBoard.boardMatrix);
+};
+
+const clearBoard = function () {
+  gameBoard.boardMatrix = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+  ];
+};
+
 const createPlayer = (name, symbol, active) => {
   return { name, symbol, active };
 };
@@ -51,18 +63,6 @@ const markSpace = (function () {
     bottomRight,
   };
 })();
-
-const displayBoard = function () {
-  console.table(gameBoard.boardMatrix);
-};
-
-const clearBoard = function () {
-  gameBoard.boardMatrix = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-  ];
-};
 
 const checkForWin = function () {
   const b = gameBoard.boardMatrix; // Shorten variable name
