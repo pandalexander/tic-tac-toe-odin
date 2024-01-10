@@ -12,19 +12,12 @@ const gameBoard = (function () {
   };
 })();
 
-const playerOne = (function () {
-  const name = "Player One";
-  const symbol = "X";
-  const active = true;
+const createPlayer = (name, symbol, active) => {
   return { name, symbol, active };
-})();
+};
 
-const playerTwo = (function () {
-  const name = "Player Two";
-  const symbol = "O";
-  const active = false;
-  return { name, symbol, active };
-})();
+const playerOne = createPlayer("playerOne", "X", true);
+const playerTwo = createPlayer("playerTwo", "O", false);
 
 const markSpace = (function () {
   const mark = (player, row, col) => {
