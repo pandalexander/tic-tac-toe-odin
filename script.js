@@ -21,7 +21,10 @@ const playerTwo = createPlayer("playerTwo", "O", false);
 
 const markSpace = (function () {
   const mark = (player, row, col) => {
-    if (typeof gameBoard.boardMatrix[row][col] === "number") {
+    if (
+      typeof gameBoard.boardMatrix[row][col] === "number" &&
+      player.active === true
+    ) {
       gameBoard.boardMatrix[row][col] = player.symbol;
     }
   };
