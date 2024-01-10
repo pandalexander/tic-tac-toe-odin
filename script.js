@@ -65,89 +65,29 @@ const clearBoard = function () {
 };
 
 const checkForWin = function () {
-  const topLeft = boardMatrix[0][0];
-  const topMiddle = boardMatrix[0][1];
-  const topRight = boardMatrix[0][2];
-  const left = boardMatrix[1][0];
-  const middle = boardMatrix[1][1];
-  const right = boardMatrix[1][2];
-  const bottomLeft = boardMatrix[2][0];
-  const bottomMiddle = boardMatrix[2][1];
-  const bottomRight = boardMatrix[2][2];
+  const b = gameBoard.boardMatrix; // Shorten variable name
 
-  // Row Wins
-  if (topLeft === topMiddle && topMiddle === topRight) {
-    if (topLeft === "X") {
-      console.log("Player One Wins!");
+  const checkWinner = (a, b, c) => {
+    // Function to check for a winner in a line
+    if (a === b && b === c) {
+      if (a === "X") {
+        console.log("Player One Wins!");
+      }
+      if (a === "O") {
+        console.log("Player Two Wins!");
+      }
     }
-    if (topLeft === "O") {
-      console.log("Player Two Wins!");
-    }
-  }
+  };
 
-  if (left === middle && middle === right) {
-    if (left === "X") {
-      console.log("Player One Wins!");
-    }
-    if (left === "O") {
-      console.log("Player Two Wins!");
-    }
+  // Check rows, columns, and diagonals for wins
+  for (let i = 0; i < 3; i++) {
+    checkWinner(b[i][0], b[i][1], b[i][2]); // Rows
+    checkWinner(b[0][i], b[1][i], b[2][i]); // Columns
   }
 
-  if (bottomLeft === bottomMiddle && bottomMiddle === bottomRight) {
-    if (bottomLeft === "X") {
-      console.log("Player One Wins!");
-    }
-    if (bottomLeft === "O") {
-      console.log("Player Two Wins!");
-    }
-  }
-
-  // Column Wins
-  if (topLeft === left && left === bottomLeft) {
-    if (topLeft === "X") {
-      console.log("Player One Wins!");
-    }
-    if (topLeft === "O") {
-      console.log("Player Two Wins!");
-    }
-  }
-
-  if (topMiddle === middle && middle === bottomMiddle) {
-    if (topMiddle === "X") {
-      console.log("Player One Wins!");
-    }
-    if (topMiddle === "O") {
-      console.log("Player Two Wins!");
-    }
-  }
-
-  if (topRight === right && right === bottomRight) {
-    if (topRight === "X") {
-      console.log("Player One Wins!");
-    }
-    if (topRight === "O") {
-      console.log("Player Two Wins!");
-    }
-  }
-
-  // Diagonal Wins
-  if (topLeft === middle && middle === bottomRight) {
-    if (topLeft === "X") {
-      console.log("Player One Wins!");
-    }
-    if (topLeft === "O") {
-      console.log("Player Two Wins!");
-    }
-  }
-  if (topRight === middle && middle === bottomLeft) {
-    if (topRight === "X") {
-      console.log("Player One Wins!");
-    }
-    if (topRight === "O") {
-      console.log("Player Two Wins!");
-    }
-  }
+  // Diagonals
+  checkWinner(b[0][0], b[1][1], b[2][2]);
+  checkWinner(b[0][2], b[1][1], b[2][0]);
 };
 
 function changeActivePlayer() {
