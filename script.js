@@ -7,7 +7,9 @@ const gameBoard = (function () {
     [6, 7, 8],
   ];
 
-  return { boardMatrix };
+  return {
+    boardMatrix,
+  };
 })();
 
 const playerOne = (function () {
@@ -25,59 +27,21 @@ const playerTwo = (function () {
 })();
 
 const markSpace = (function () {
-  const topLeft = (symbol) => {
-    if (typeof gameBoard.boardMatrix[0][0] === "number") {
-      gameBoard.boardMatrix[0][0] = symbol;
+  const mark = (player, row, col) => {
+    if (typeof gameBoard.boardMatrix[row][col] === "number") {
+      gameBoard.boardMatrix[row][col] = player.symbol;
     }
   };
 
-  const topMiddle = (symbol) => {
-    if (typeof gameBoard.boardMatrix[0][1] === "number") {
-      gameBoard.boardMatrix[0][1] = symbol;
-    }
-  };
-
-  const topRight = (symbol) => {
-    if (typeof gameBoard.boardMatrix[0][2] === "number") {
-      gameBoard.boardMatrix[0][2] = symbol;
-    }
-  };
-
-  const left = (symbol) => {
-    if (typeof gameBoard.boardMatrix[1][0] === "number") {
-      gameBoard.boardMatrix[1][0] = symbol;
-    }
-  };
-
-  const middle = (symbol) => {
-    if (typeof gameBoard.boardMatrix[1][1] === "number") {
-      gameBoard.boardMatrix[1][1] = symbol;
-    }
-  };
-
-  const right = (symbol) => {
-    if (typeof gameBoard.boardMatrix[1][2] === "number") {
-      gameBoard.boardMatrix[1][2] = symbol;
-    }
-  };
-
-  const bottomLeft = (symbol) => {
-    if (typeof gameBoard.boardMatrix[2][0] === "number") {
-      gameBoard.boardMatrix[2][0] = symbol;
-    }
-  };
-
-  const bottomMiddle = (symbol) => {
-    if (typeof gameBoard.boardMatrix[2][1] === "number") {
-      gameBoard.boardMatrix[2][1] = symbol;
-    }
-  };
-
-  const bottomRight = (symbol) => {
-    if (typeof gameBoard.boardMatrix[2][2] === "number") {
-      gameBoard.boardMatrix[2][2] = symbol;
-    }
-  };
+  const topLeft = (player) => mark(player, 0, 0);
+  const topMiddle = (player) => mark(player, 0, 1);
+  const topRight = (player) => mark(player, 0, 2);
+  const left = (player) => mark(player, 1, 0);
+  const middle = (player) => mark(player, 1, 1);
+  const right = (player) => mark(player, 1, 2);
+  const bottomLeft = (player) => mark(player, 2, 0);
+  const bottomMiddle = (player) => mark(player, 2, 1);
+  const bottomRight = (player) => mark(player, 2, 2);
 
   return {
     topLeft,
@@ -105,15 +69,15 @@ const clearBoard = function () {
 };
 
 const checkForWin = function () {
-  const topLeft = gameBoard.boardMatrix[0][0];
-  const topMiddle = gameBoard.boardMatrix[0][1];
-  const topRight = gameBoard.boardMatrix[0][2];
-  const left = gameBoard.boardMatrix[1][0];
-  const middle = gameBoard.boardMatrix[1][1];
-  const right = gameBoard.boardMatrix[1][2];
-  const bottomLeft = gameBoard.boardMatrix[2][0];
-  const bottomMiddle = gameBoard.boardMatrix[2][1];
-  const bottomRight = gameBoard.boardMatrix[2][2];
+  const topLeft = boardMatrix[0][0];
+  const topMiddle = boardMatrix[0][1];
+  const topRight = boardMatrix[0][2];
+  const left = boardMatrix[1][0];
+  const middle = boardMatrix[1][1];
+  const right = boardMatrix[1][2];
+  const bottomLeft = boardMatrix[2][0];
+  const bottomMiddle = boardMatrix[2][1];
+  const bottomRight = boardMatrix[2][2];
 
   // Row Wins
   if (topLeft === topMiddle && topMiddle === topRight) {
@@ -206,8 +170,6 @@ function changeActivePlayer() {
     }
     return count;
   }
-
-  console.log(gameBoard.boardMatrix);
 
   let numberCount = countNumbers(gameBoard.boardMatrix);
   if (numberCount % 2) {
