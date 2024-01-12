@@ -76,6 +76,9 @@ const checkForWin = function () {
       if (a === "O") {
         console.log("Player Two Wins!");
       }
+      if (b.filter((element) => typeof element === "number").length === 0) {
+        console.log("It's a tie!");
+      }
     }
   };
 
