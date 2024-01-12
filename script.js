@@ -52,6 +52,7 @@ const markSpace = (function () {
   const bottomRight = (player) => mark(player, 2, 2);
 
   return {
+    mark,
     topLeft,
     topMiddle,
     topRight,
@@ -67,17 +68,20 @@ const markSpace = (function () {
 const checkForWin = function () {
   const b = gameBoard.boardMatrix; // Shorten variable name
 
+  if (b.filter((element) => typeof element === "number").length === 0) {
+    console.log("It's a tie!");
+  }
+
   const checkWinner = (a, b, c) => {
     // Function to check for a winner in a line
     if (a === b && b === c) {
       if (a === "X") {
         console.log("Player One Wins!");
+        return playerOne;
       }
       if (a === "O") {
         console.log("Player Two Wins!");
-      }
-      if (b.filter((element) => typeof element === "number").length === 0) {
-        console.log("It's a tie!");
+        return playerTwo;
       }
     }
   };
@@ -103,3 +107,22 @@ function changeActivePlayer() {
   playerOne.active = numberCount % 2 === 1;
   playerTwo.active = numberCount % 2 === 0;
 }
+
+const gameController = (function () {
+  displayBoard();
+
+  const turn = function (row, col) {
+    if (playerOne.active) {
+      player = playerOne;
+    } else if (playerTwo.active) {
+      player = playerTwo;
+    }
+
+    markSpace.mark(player, row, col);
+
+    displayBoard();
+    checkForWin();
+    changeActivePlayer();
+  };
+  return { turn };
+})();
