@@ -34,10 +34,6 @@ const playerTwo = createPlayer("playerTwo", "O", false, false);
 const checkForWin = function () {
   const b = gameBoard.boardMatrix; // Shorten variable name
 
-  if (b.filter((element) => typeof element === "number").length === 0) {
-    console.log("It's a tie!");
-  }
-
   const checkWinner = (a, b, c) => {
     // Function to check for a winner in a line
     if (a === b && b === c) {
