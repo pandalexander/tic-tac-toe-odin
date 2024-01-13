@@ -22,34 +22,36 @@ const clearBoard = function () {
     [3, 4, 5],
     [6, 7, 8],
   ];
+  playerOne.hasWon = false;
+  playerTwo.hasWon = false;
 };
 
-const createPlayer = (name, symbol, active) => {
-  return { name, symbol, active };
+const createPlayer = (name, symbol, active, hasWon) => {
+  return { name, symbol, active, hasWon };
 };
 
-const playerOne = createPlayer("playerOne", "X", true);
-const playerTwo = createPlayer("playerTwo", "O", false);
+const playerOne = createPlayer("playerOne", "X", true, false);
+const playerTwo = createPlayer("playerTwo", "O", false, false);
 
-const markSpace = (function () {
-  const mark = (player, row, col) => {
-    if (
-      typeof gameBoard.boardMatrix[row][col] === "number" &&
-      player.active === true
-    ) {
-      gameBoard.boardMatrix[row][col] = player.symbol;
-    }
-  };
+// const markSpace = (function () {
+//   const mark = (player, row, col) => {
+//     if (
+//       typeof gameBoard.boardMatrix[row][col] === "number" &&
+//       player.active === true
+//     ) {
+//       gameBoard.boardMatrix[row][col] = player.symbol;
+//     }
+//   };
 
-  const topLeft = (player) => mark(player, 0, 0);
-  const topMiddle = (player) => mark(player, 0, 1);
-  const topRight = (player) => mark(player, 0, 2);
-  const left = (player) => mark(player, 1, 0);
-  const middle = (player) => mark(player, 1, 1);
-  const right = (player) => mark(player, 1, 2);
-  const bottomLeft = (player) => mark(player, 2, 0);
-  const bottomMiddle = (player) => mark(player, 2, 1);
-  const bottomRight = (player) => mark(player, 2, 2);
+//   const topLeft = (player) => mark(player, 0, 0);
+//   const topMiddle = (player) => mark(player, 0, 1);
+//   const topRight = (player) => mark(player, 0, 2);
+//   const left = (player) => mark(player, 1, 0);
+//   const middle = (player) => mark(player, 1, 1);
+//   const right = (player) => mark(player, 1, 2);
+//   const bottomLeft = (player) => mark(player, 2, 0);
+//   const bottomMiddle = (player) => mark(player, 2, 1);
+//   const bottomRight = (player) => mark(player, 2, 2);
 
   return {
     mark,
@@ -76,13 +78,24 @@ const checkForWin = function () {
     // Function to check for a winner in a line
     if (a === b && b === c) {
       if (a === "X") {
+        playerOne.hasWon = true;
+        playerTwo.hasWon = false;
         console.log("Player One Wins!");
-        return playerOne;
-      }
-      if (a === "O") {
+      } else if (a === "O") {
+        playerOne.hasWon = false;
+        playerTwo.hasWon = true;
         console.log("Player Two Wins!");
-        return playerTwo;
       }
+    }
+  };
+
+  const checkTie = () => {
+    if (
+      b.flat().filter((element) => typeof element === "number").length === 0 &&
+      playerOne.hasWon === false &&
+      playerTwo.hasWon === false
+    ) {
+      console.log("It's a tie!");
     }
   };
 
@@ -95,6 +108,9 @@ const checkForWin = function () {
   // Diagonals
   checkWinner(b[0][0], b[1][1], b[2][2]);
   checkWinner(b[0][2], b[1][1], b[2][0]);
+
+  // Tie game
+  checkTie();
 };
 
 function changeActivePlayer() {
@@ -109,7 +125,14 @@ function changeActivePlayer() {
 }
 
 const gameController = (function () {
-  displayBoard();
+  const mark = function (player, row, col) {
+    if (
+      typeof gameBoard.boardMatrix[row][col] === "number" &&
+      player.active === true
+    ) {
+      gameBoard.boardMatrix[row][col] = player.symbol;
+    }
+  };
 
   const turn = function (row, col) {
     if (playerOne.active) {
@@ -117,9 +140,7 @@ const gameController = (function () {
     } else if (playerTwo.active) {
       player = playerTwo;
     }
-
-    markSpace.mark(player, row, col);
-
+    mark(player, row, col);
     displayBoard();
     checkForWin();
     changeActivePlayer();
