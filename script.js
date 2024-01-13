@@ -1,5 +1,3 @@
-// Build GameBoard Object
-
 const gameBoard = (function () {
   const boardMatrix = [
     [0, 1, 2],
@@ -32,40 +30,6 @@ const createPlayer = (name, symbol, active, hasWon) => {
 
 const playerOne = createPlayer("playerOne", "X", true, false);
 const playerTwo = createPlayer("playerTwo", "O", false, false);
-
-// const markSpace = (function () {
-//   const mark = (player, row, col) => {
-//     if (
-//       typeof gameBoard.boardMatrix[row][col] === "number" &&
-//       player.active === true
-//     ) {
-//       gameBoard.boardMatrix[row][col] = player.symbol;
-//     }
-//   };
-
-//   const topLeft = (player) => mark(player, 0, 0);
-//   const topMiddle = (player) => mark(player, 0, 1);
-//   const topRight = (player) => mark(player, 0, 2);
-//   const left = (player) => mark(player, 1, 0);
-//   const middle = (player) => mark(player, 1, 1);
-//   const right = (player) => mark(player, 1, 2);
-//   const bottomLeft = (player) => mark(player, 2, 0);
-//   const bottomMiddle = (player) => mark(player, 2, 1);
-//   const bottomRight = (player) => mark(player, 2, 2);
-
-  return {
-    mark,
-    topLeft,
-    topMiddle,
-    topRight,
-    left,
-    middle,
-    right,
-    bottomLeft,
-    bottomMiddle,
-    bottomRight,
-  };
-})();
 
 const checkForWin = function () {
   const b = gameBoard.boardMatrix; // Shorten variable name
