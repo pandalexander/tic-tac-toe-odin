@@ -1,3 +1,4 @@
+// Game board module with a matrix to represent the Tic Tac Toe board
 const gameBoard = (function () {
   const boardMatrix = [
     [0, 1, 2],
@@ -10,10 +11,12 @@ const gameBoard = (function () {
   };
 })();
 
+// Function to display the current state of the game board
 const displayBoard = function () {
   console.table(gameBoard.boardMatrix);
 };
 
+// Function to clear the game board and reset player statuses
 const clearBoard = function () {
   gameBoard.boardMatrix = [
     [0, 1, 2],
@@ -24,13 +27,16 @@ const clearBoard = function () {
   playerTwo.hasWon = false;
 };
 
+// Factory function to create a player object with specified properties
 const createPlayer = (name, symbol, active, hasWon) => {
   return { name, symbol, active, hasWon };
 };
 
+// Creating playerOne and playerTwo objects
 const playerOne = createPlayer("playerOne", "X", true, false);
 const playerTwo = createPlayer("playerTwo", "O", false, false);
 
+// Function to check for a win or a tie on the game board
 const checkForWin = function () {
   const b = gameBoard.boardMatrix; // Shorten variable name
 
@@ -51,6 +57,7 @@ const checkForWin = function () {
     }
   };
 
+  // Function to check for a tie
   const checkTie = () => {
     if (
       b.flat().filter((element) => typeof element === "number").length === 0 &&
@@ -72,10 +79,11 @@ const checkForWin = function () {
   checkWinner(b[0][0], b[1][1], b[2][2]);
   checkWinner(b[0][2], b[1][1], b[2][0]);
 
-  // Tie game
+  // Check for a tie game
   checkTie();
 };
 
+// Function to change the active player based on the number of remaining empty spaces
 function changeActivePlayer() {
   const countNumbers = (matrix) => {
     return matrix.flat().filter((element) => typeof element === "number")
@@ -87,7 +95,9 @@ function changeActivePlayer() {
   playerTwo.active = numberCount % 2 === 0;
 }
 
+// Game controller module with functions for user and computer turns
 const gameController = (function () {
+  // Function to mark a cell on the game board based on the current player's symbol
   const mark = function (player, row, col) {
     if (
       typeof gameBoard.boardMatrix[row][col] === "number" &&
@@ -96,7 +106,7 @@ const gameController = (function () {
       gameBoard.boardMatrix[row][col] = player.symbol;
     }
   };
-
+  // Function for the user's turn
   const userTurn = function (row, col) {
     if (playerOne.active) {
       player = playerOne;
@@ -109,6 +119,7 @@ const gameController = (function () {
     changeActivePlayer();
   };
 
+  // Function for the computer's turn
   const computerTurn = function () {
     if (playerOne.active) {
       player = playerOne;
@@ -120,10 +131,12 @@ const gameController = (function () {
       .flat()
       .filter((element) => typeof element === "number").length;
 
+    // Function to get a random empty space on the board
     function getRandomSpace() {
       return Math.floor(Math.random() * 3);
     }
 
+    // Computer's turn loop
     do {
       mark(player, getRandomSpace(), getRandomSpace());
       displayBoard();
