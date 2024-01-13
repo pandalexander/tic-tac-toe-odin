@@ -81,10 +81,12 @@ const checkForWin = function () {
         playerOne.hasWon = true;
         playerTwo.hasWon = false;
         console.log("Player One Wins!");
+        clearBoard();
       } else if (a === "O") {
         playerOne.hasWon = false;
         playerTwo.hasWon = true;
         console.log("Player Two Wins!");
+        clearBoard();
       }
     }
   };
@@ -96,6 +98,7 @@ const checkForWin = function () {
       playerTwo.hasWon === false
     ) {
       console.log("It's a tie!");
+      clearBoard();
     }
   };
 
