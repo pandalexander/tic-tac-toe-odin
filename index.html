@@ -8,5 +8,148 @@
   </head>
   <body>
     <script src="script.js"></script>
+    <!-- <script>
+      const gameBoard = (function () {
+        const boardMatrix = [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8],
+        ];
+
+        return {
+          boardMatrix,
+        };
+      })();
+
+      const displayBoard = function () {
+        console.table(gameBoard.boardMatrix);
+      };
+
+      const clearBoard = function () {
+        gameBoard.boardMatrix = [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8],
+        ];
+        playerOne.hasWon = false;
+        playerTwo.hasWon = false;
+      };
+
+      const createPlayer = (name, symbol, active, hasWon) => {
+        return { name, symbol, active, hasWon };
+      };
+
+      const playerOne = createPlayer("playerOne", "X", true, false);
+      const playerTwo = createPlayer("playerTwo", "O", false, false);
+
+      const checkForWin = function () {
+        const b = gameBoard.boardMatrix; // Shorten variable name
+
+        const checkWinner = (a, b, c) => {
+          // Function to check for a winner in a line
+          if (a === b && b === c) {
+            if (a === "X") {
+              playerOne.hasWon = true;
+              playerTwo.hasWon = false;
+              console.log("Player One Wins!");
+              clearBoard();
+            } else if (a === "O") {
+              playerOne.hasWon = false;
+              playerTwo.hasWon = true;
+              console.log("Player Two Wins!");
+              clearBoard();
+            }
+          }
+        };
+
+        const checkTie = () => {
+          if (
+            b.flat().filter((element) => typeof element === "number").length ===
+              0 &&
+            playerOne.hasWon === false &&
+            playerTwo.hasWon === false
+          ) {
+            console.log("It's a tie!");
+            clearBoard();
+          }
+        };
+
+        // Check rows, columns, and diagonals for wins
+        for (let i = 0; i < 3; i++) {
+          checkWinner(b[i][0], b[i][1], b[i][2]); // Rows
+          checkWinner(b[0][i], b[1][i], b[2][i]); // Columns
+        }
+
+        // Diagonals
+        checkWinner(b[0][0], b[1][1], b[2][2]);
+        checkWinner(b[0][2], b[1][1], b[2][0]);
+
+        // Tie game
+        checkTie();
+      };
+
+      function changeActivePlayer() {
+        const countNumbers = (matrix) => {
+          return matrix.flat().filter((element) => typeof element === "number")
+            .length;
+        };
+
+        const numberCount = countNumbers(gameBoard.boardMatrix);
+        playerOne.active = numberCount % 2 === 1;
+        playerTwo.active = numberCount % 2 === 0;
+      }
+
+      const gameController = (function () {
+        const mark = function (player, row, col) {
+          if (
+            typeof gameBoard.boardMatrix[row][col] === "number" &&
+            player.active === true
+          ) {
+            gameBoard.boardMatrix[row][col] = player.symbol;
+          }
+        };
+
+        const userTurn = function (row, col) {
+          if (playerOne.active) {
+            player = playerOne;
+          } else if (playerTwo.active) {
+            player = playerTwo;
+          }
+          mark(player, row, col);
+          displayBoard();
+          checkForWin();
+          changeActivePlayer();
+        };
+
+        const computerTurn = function () {
+          if (playerOne.active) {
+            player = playerOne;
+          } else if (playerTwo.active) {
+            player = playerTwo;
+          }
+
+          let currentLength = gameBoard.boardMatrix
+            .flat()
+            .filter((element) => typeof element === "number").length;
+
+          function getRandomSpace() {
+            return Math.floor(Math.random() * 3);
+          }
+
+          do {
+            mark(player, getRandomSpace(), getRandomSpace());
+            displayBoard();
+            checkForWin();
+            changeActivePlayer();
+          } while (
+            currentLength ===
+            gameBoard.boardMatrix
+              .flat()
+              .filter((element) => typeof element === "number").length
+          );
+        };
+        return { userTurn, computerTurn };
+      })();
+    </script> -->
   </body>
 </html>
