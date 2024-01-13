@@ -1,0 +1,63 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#board-center-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#board-container {
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 200px);
+  grid-template-rows: repeat(3, 200px);
+}
+
+.box:hover {
+  background-color: whitesmoke;
+}
+
+#top-left {
+  border-bottom: solid 2px black;
+}
+
+#top-middle {
+  border-bottom: solid 2px black;
+  border-left: solid 2px black;
+  border-right: solid 2px black;
+}
+
+#top-right {
+  border-bottom: solid 2px black;
+}
+
+#left {
+}
+
+#middle {
+  border-left: solid 2px black;
+  border-right: solid 2px black;
+}
+
+#right {
+}
+
+#bottom-left {
+  border-top: solid 2px black;
+}
+
+#bottom-middle {
+  border-top: solid 2px black;
+  border-left: solid 2px black;
+  border-right: solid 2px black;
+}
+
+#bottom-right {
+  border-top: solid 2px black;
+}
