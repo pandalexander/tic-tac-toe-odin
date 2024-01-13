@@ -7,8 +7,14 @@
 #board-center-container {
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#narrator {
+  text-align: center;
+  padding: 25px;
 }
 
 #board-container {

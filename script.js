@@ -1,3 +1,15 @@
+const narrator = document.getElementById("narrator");
+const boardContainer = document.getElementById("board-container");
+const topLeft = document.getElementById("top-left");
+const topMiddle = document.getElementById("top-middle");
+const topRight = document.getElementById("top-right");
+const left = document.getElementById("left");
+const middle = document.getElementById("middle");
+const right = document.getElementById("right");
+const bottomLeft = document.getElementById("bottom-left");
+const bottomMiddle = document.getElementById("bottom-middle");
+const bottomRight = document.getElementById("bottom-right");
+
 // Game board module with a matrix to represent the Tic Tac Toe board
 const gameBoard = (function () {
   const boardMatrix = [
@@ -14,6 +26,41 @@ const gameBoard = (function () {
 // Function to display the current state of the game board
 const displayBoard = function () {
   console.table(gameBoard.boardMatrix);
+
+  // Update DOM
+  for (x = 0; x < gameBoard.boardMatrix.length; x++) {
+    for (y = 0; y < gameBoard.boardMatrix[x].length; y++) {
+      if (typeof gameBoard.boardMatrix[x][y] === "string") {
+        if (x === 0 && y === 0) {
+          topLeft.textContent = gameBoard.boardMatrix[x][y];
+        }
+        if (x === 0 && y === 1) {
+          topMiddle.textContent = gameBoard.boardMatrix[x][y];
+        }
+        if (x === 0 && y === 2) {
+          topRight.textContent = gameBoard.boardMatrix[x][y];
+        }
+        if (x === 1 && y === 0) {
+          left.textContent = gameBoard.boardMatrix[x][y];
+        }
+        if (x === 1 && y === 1) {
+          middle.textContent = gameBoard.boardMatrix[x][y];
+        }
+        if (x === 1 && y === 2) {
+          right.textContent = gameBoard.boardMatrix[x][y];
+        }
+        if (x === 2 && y === 0) {
+          bottomLeft.textContent = gameBoard.boardMatrix[x][y];
+        }
+        if (x === 2 && y === 1) {
+          bottomMiddle.textContent = gameBoard.boardMatrix[x][y];
+        }
+        if (x === 2 && y === 2) {
+          bottomRight.textContent = gameBoard.boardMatrix[x][y];
+        }
+      }
+    }
+  }
 };
 
 // Function to clear the game board and reset player statuses
@@ -23,8 +70,6 @@ const clearBoard = function () {
     [3, 4, 5],
     [6, 7, 8],
   ];
-  playerOne.hasWon = false;
-  playerTwo.hasWon = false;
 };
 
 // Factory function to create a player object with specified properties
@@ -151,3 +196,41 @@ const gameController = (function () {
   };
   return { userTurn, computerTurn };
 })();
+
+// DOM MANIPULATION TIME!
+
+topLeft.addEventListener("click", function (e) {
+  gameController.userTurn(0, 0);
+});
+
+topMiddle.addEventListener("click", function (e) {
+  gameController.userTurn(0, 1);
+});
+
+topRight.addEventListener("click", function (e) {
+  gameController.userTurn(0, 2);
+});
+
+left.addEventListener("click", function (e) {
+  gameController.userTurn(1, 0);
+});
+
+middle.addEventListener("click", function (e) {
+  gameController.userTurn(1, 1);
+});
+
+right.addEventListener("click", function (e) {
+  gameController.userTurn(1, 2);
+});
+
+bottomLeft.addEventListener("click", function (e) {
+  gameController.userTurn(2, 0);
+});
+
+bottomMiddle.addEventListener("click", function (e) {
+  gameController.userTurn(2, 1);
+});
+
+bottomRight.addEventListener("click", function (e) {
+  gameController.userTurn(2, 2);
+});
