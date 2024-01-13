@@ -101,7 +101,7 @@ const gameController = (function () {
     }
   };
 
-  const turn = function (row, col) {
+  const userTurn = function (row, col) {
     if (playerOne.active) {
       player = playerOne;
     } else if (playerTwo.active) {
@@ -112,5 +112,33 @@ const gameController = (function () {
     checkForWin();
     changeActivePlayer();
   };
-  return { turn };
+
+  const computerTurn = function () {
+    if (playerOne.active) {
+      player = playerOne;
+    } else if (playerTwo.active) {
+      player = playerTwo;
+    }
+
+    let currentLength = gameBoard.boardMatrix
+      .flat()
+      .filter((element) => typeof element === "number").length;
+
+    function getRandomSpace() {
+      return Math.floor(Math.random() * 3);
+    }
+
+    do {
+      mark(player, getRandomSpace(), getRandomSpace());
+      displayBoard();
+      checkForWin();
+      changeActivePlayer();
+    } while (
+      currentLength ===
+      gameBoard.boardMatrix
+        .flat()
+        .filter((element) => typeof element === "number").length
+    );
+  };
+  return { userTurn, computerTurn };
 })();
