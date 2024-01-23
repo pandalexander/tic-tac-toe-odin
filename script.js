@@ -29,7 +29,7 @@ const Gameboard = (function () {
     const boardWithValues = board.map((row) =>
       row.map((cell) => cell.getValue())
     );
-    console.log(boardWithValues);
+    console.table(boardWithValues);
   };
 
   // Function to clear the entire game board
@@ -70,19 +70,54 @@ function Cell() {
   return { setCellValue, getValue, clearCell };
 }
 
-// Create player objects with player 1 having mark = 1, player 2 having mark = 2
+// IIFE to manage game control, player creation, and turns
+const GameController = (function () {
+  function createPlayer(name, value, symbol) {
+    return { name, value, symbol };
+  }
 
-// GameController
-// Create Players
+  // Create Player One and Player Two with different values and symbols
+  const playerOne = createPlayer("Player One", 1, "X");
+  const playerTwo = createPlayer("Player Two", 2, "O");
 
-// (put players inside array called players)
+  // Store players in an array for easy access
+  const players = [playerOne, playerTwo];
 
-// Make Active Player variable that makes player one active. Make  switch active player function that, when initiated, makes the active player the opposite of whatever the active player currently is.
+  // Set the initial active player to Player One
+  let activePlayer = players[0];
 
-// get active player function
+  // Function to switch the active player after each turn
+  const switchActivePlayer = () => {
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
+  };
 
-// print new turn function that prints current state of board and console message
+  // Function to get the currently active player
+  const getActivePlayer = () => activePlayer;
 
-// play turn function (location) that logs a message that is player specific and location specific, make the active player's mark on that space, switch active player, and prints a new turn
+  // Function to print the current game board and active player's turn
+  const printNewTurn = () => {
+    Gameboard.printBoard();
+    console.log(`It is ${getActivePlayer().name}'s turn!`);
+  };
 
-// print initial new turn
+  // Function to play a turn, mark a cell, switch player, and print the new turn
+  const playTurn = (row, column) => {
+    // Stops working if space has already been marked
+    if (!Gameboard.getBoard()[row][column].getValue()) {
+      console.log(
+        `${
+          getActivePlayer().name
+        } marked the square located at row ${row} and column ${column}.`
+      );
+      Gameboard.markCell(row, column, getActivePlayer().value);
+      switchActivePlayer();
+      printNewTurn();
+    }
+  };
+
+  // Initial print of the game board and active player's turn
+  printNewTurn();
+
+  // Return public methods for external use
+  return { playTurn, getActivePlayer };
+})();
