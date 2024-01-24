@@ -72,13 +72,13 @@ function Cell() {
 
 // IIFE to manage game control, player creation, and turns
 const GameController = (function () {
-  function createPlayer(name, value, symbol) {
-    return { name, value, symbol };
+  function createPlayer(name, value, symbol, score) {
+    return { name, value, symbol, score };
   }
 
   // Create Player One and Player Two with different values and symbols
-  const playerOne = createPlayer("Player One", 1, "X");
-  const playerTwo = createPlayer("Player Two", 2, "O");
+  const playerOne = createPlayer("Player One", 1, "X", 0);
+  const playerTwo = createPlayer("Player Two", 2, "O", 0);
 
   // Store players in an array for easy access
   const players = [playerOne, playerTwo];
@@ -94,10 +94,68 @@ const GameController = (function () {
   // Function to get the currently active player
   const getActivePlayer = () => activePlayer;
 
+  // Function to access private player score
+  const getPlayerScores = () => {
+    console.log(`${playerOne.name}'s score: ${playerOne.score}`);
+    console.log(`${playerTwo.name}'s score: ${playerTwo.score}`);
+  };
+
   // Function to print the current game board and active player's turn
   const printNewTurn = () => {
     Gameboard.printBoard();
     console.log(`It is ${getActivePlayer().name}'s turn!`);
+  };
+
+  const checkForWin = () => {
+    const boardWithValues = Gameboard.getBoard().map((row) =>
+      row.map((cell) => cell.getValue())
+    );
+
+    const checkThrees = () => {
+      for (let i = 0; i < 3; i++) {
+        // check verticals
+        if (
+          boardWithValues[0][i] !== 0 &&
+          boardWithValues[0][i] === boardWithValues[1][i] &&
+          boardWithValues[1][i] === boardWithValues[2][i]
+        ) {
+          return boardWithValues[0][i];
+        }
+
+        // check horizontals
+        if (
+          boardWithValues[i][0] !== 0 &&
+          boardWithValues[i][0] === boardWithValues[i][1] &&
+          boardWithValues[i][1] === boardWithValues[i][2]
+        ) {
+          return boardWithValues[i][0];
+        }
+      }
+
+      // Check Diagonals
+      if (
+        (boardWithValues[0][0] !== 0 &&
+          boardWithValues[0][0] === boardWithValues[1][1] &&
+          boardWithValues[1][1] === boardWithValues[2][2]) ||
+        (boardWithValues[0][2] !== 0 &&
+          boardWithValues[0][2] === boardWithValues[1][1] &&
+          boardWithValues[1][1] === boardWithValues[2][0])
+      ) {
+        return boardWithValues[1][1]; // Return the player value (1 or 2) for three in a row
+      }
+    };
+    const playerWins = () => {
+      if (checkThrees() !== undefined) {
+        let winningPlayer = checkThrees() === 1 ? playerOne : playerTwo;
+        Gameboard.printBoard();
+        console.log(`${winningPlayer.name} wins!`);
+        winningPlayer.score++;
+        Gameboard.clearBoard();
+        switchActivePlayer();
+        console.log("Let's play another game!");
+      }
+    };
+    playerWins();
   };
 
   // Function to play a turn, mark a cell, switch player, and print the new turn
@@ -110,6 +168,7 @@ const GameController = (function () {
         } marked the square located at row ${row} and column ${column}.`
       );
       Gameboard.markCell(row, column, getActivePlayer().value);
+      checkForWin();
       switchActivePlayer();
       printNewTurn();
     }
@@ -119,5 +178,5 @@ const GameController = (function () {
   printNewTurn();
 
   // Return public methods for external use
-  return { playTurn, getActivePlayer };
+  return { playTurn, getActivePlayer, getPlayerScores };
 })();
