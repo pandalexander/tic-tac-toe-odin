@@ -15,6 +15,9 @@ const rightElement = document.getElementById("right");
 const bottomLeftElement = document.getElementById("bottom-left");
 const bottomMiddleElement = document.getElementById("bottom-middle");
 const bottomRightElement = document.getElementById("bottom-right");
+const newGameButton = document.getElementById("new-game-button");
+const playerOneScore = document.getElementById("player-one-score");
+const playerTwoScore = document.getElementById("player-two-score");
 
 topLeftElement.addEventListener("click", function () {
   GameController.playTurn(0, 0);
@@ -50,6 +53,10 @@ bottomMiddleElement.addEventListener("click", function () {
 
 bottomRightElement.addEventListener("click", function () {
   GameController.playTurn(2, 2);
+});
+
+newGameButton.addEventListener("click", function () {
+  GameController.newGame();
 });
 
 /* ****************************** */
@@ -217,10 +224,16 @@ const GameController = (function () {
   const getActivePlayer = () => activePlayer;
 
   // Function to access private player score
-  const getPlayerScores = () => {
-    console.log(`${playerOne.name}'s score: ${playerOne.score}`);
-    console.log(`${playerTwo.name}'s score: ${playerTwo.score}`);
+  const getPlayerOneScore = () => {
+    return playerOne.score;
   };
+
+  const getPlayerTwoScore = () => {
+    return playerTwo.score;
+  };
+
+  playerOneScore.textContent = getPlayerOneScore();
+  playerTwoScore.textContent = getPlayerTwoScore();
 
   // Function to print the current game board and active player's turn
   const printNewTurn = () => {
@@ -280,11 +293,15 @@ const GameController = (function () {
         Gameboard.printBoard();
         narratorElement.textContent = `${winningPlayer.name} wins!`;
         winningPlayer.score++;
+        playerOneScore.textContent = getPlayerOneScore();
+        playerTwoScore.textContent = getPlayerTwoScore();
         isGameOver = true;
       } else if (checkThrees() === undefined && checkTie()) {
         Gameboard.printBoard();
         narratorElement.textContent = "Cat's Game - No One Wins";
         makePlayerOneActive();
+        playerOneScore.textContent = getPlayerOneScore();
+        playerTwoScore.textContent = getPlayerTwoScore();
         isGameOver = true;
       }
     };
@@ -318,7 +335,14 @@ const GameController = (function () {
   printNewTurn();
 
   // Return public methods for external use
-  return { playTurn, getActivePlayer, getPlayerScores, getGameOver, newGame };
+  return {
+    playTurn,
+    getActivePlayer,
+    getPlayerOneScore,
+    getPlayerTwoScore,
+    getGameOver,
+    newGame,
+  };
 })();
 
 // const testPlayerOneWins = () => {
