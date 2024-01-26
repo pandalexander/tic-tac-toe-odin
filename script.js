@@ -91,6 +91,10 @@ const GameController = (function () {
     activePlayer = activePlayer === players[0] ? players[1] : players[0];
   };
 
+  const makePlayerOneActive = () => {
+    activePlayer = players[0];
+  };
+
   // Function to get the currently active player
   const getActivePlayer = () => activePlayer;
 
@@ -110,6 +114,11 @@ const GameController = (function () {
     const boardWithValues = Gameboard.getBoard().map((row) =>
       row.map((cell) => cell.getValue())
     );
+
+    const checkTie = () => {
+      let zeroArray = boardWithValues.flat().filter((isZero) => isZero === 0);
+      return !zeroArray.length;
+    };
 
     const checkThrees = () => {
       for (let i = 0; i < 3; i++) {
@@ -144,14 +153,21 @@ const GameController = (function () {
         return boardWithValues[1][1]; // Return the player value (1 or 2) for three in a row
       }
     };
+
     const playerWins = () => {
       if (checkThrees() !== undefined) {
         let winningPlayer = checkThrees() === 1 ? playerOne : playerTwo;
         Gameboard.printBoard();
         console.log(`${winningPlayer.name} wins!`);
         winningPlayer.score++;
+        makePlayerOneActive();
         Gameboard.clearBoard();
-        switchActivePlayer();
+        console.log("Let's play another game!");
+      } else if (checkThrees() === undefined && checkTie()) {
+        Gameboard.printBoard();
+        console.log("Cat's Game - No One Wins");
+        makePlayerOneActive();
+        Gameboard.clearBoard();
         console.log("Let's play another game!");
       }
     };
@@ -168,8 +184,8 @@ const GameController = (function () {
         } marked the square located at row ${row} and column ${column}.`
       );
       Gameboard.markCell(row, column, getActivePlayer().value);
-      checkForWin();
       switchActivePlayer();
+      checkForWin();
       printNewTurn();
     }
   };
