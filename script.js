@@ -72,6 +72,9 @@ function Cell() {
 
 // IIFE to manage game control, player creation, and turns
 const GameController = (function () {
+  let isGameOver = false;
+  const getGameOver = () => isGameOver;
+
   function createPlayer(name, value, symbol, score) {
     return { name, value, symbol, score };
   }
@@ -106,8 +109,10 @@ const GameController = (function () {
 
   // Function to print the current game board and active player's turn
   const printNewTurn = () => {
-    Gameboard.printBoard();
-    console.log(`It is ${getActivePlayer().name}'s turn!`);
+    if (!isGameOver) {
+      Gameboard.printBoard();
+      console.log(`It is ${getActivePlayer().name}'s turn!`);
+    }
   };
 
   const checkForWin = () => {
@@ -160,15 +165,12 @@ const GameController = (function () {
         Gameboard.printBoard();
         console.log(`${winningPlayer.name} wins!`);
         winningPlayer.score++;
-        makePlayerOneActive();
-        Gameboard.clearBoard();
-        console.log("Let's play another game!");
+        isGameOver = true;
       } else if (checkThrees() === undefined && checkTie()) {
         Gameboard.printBoard();
         console.log("Cat's Game - No One Wins");
         makePlayerOneActive();
-        Gameboard.clearBoard();
-        console.log("Let's play another game!");
+        isGameOver = true;
       }
     };
     playerWins();
@@ -176,23 +178,61 @@ const GameController = (function () {
 
   // Function to play a turn, mark a cell, switch player, and print the new turn
   const playTurn = (row, column) => {
-    // Stops working if space has already been marked
-    if (!Gameboard.getBoard()[row][column].getValue()) {
-      console.log(
-        `${
-          getActivePlayer().name
-        } marked the square located at row ${row} and column ${column}.`
-      );
-      Gameboard.markCell(row, column, getActivePlayer().value);
-      switchActivePlayer();
-      checkForWin();
-      printNewTurn();
+    // Stops working if space has already been marked or if game is over
+    if (!isGameOver) {
+      if (!Gameboard.getBoard()[row][column].getValue()) {
+        console.log(
+          `${
+            getActivePlayer().name
+          } marked the square located at row ${row} and column ${column}.`
+        );
+        Gameboard.markCell(row, column, getActivePlayer().value);
+        switchActivePlayer();
+        checkForWin();
+        printNewTurn();
+      }
     }
+  };
+
+  const newGame = () => {
+    isGameOver = false;
+    Gameboard.clearBoard();
+    makePlayerOneActive();
+    printNewTurn();
   };
 
   // Initial print of the game board and active player's turn
   printNewTurn();
 
   // Return public methods for external use
-  return { playTurn, getActivePlayer, getPlayerScores };
+  return { playTurn, getActivePlayer, getPlayerScores, getGameOver, newGame };
 })();
+
+// const testPlayerOneWins = () => {
+//   GameController.playTurn(0, 0); // Player 1
+//   GameController.playTurn(1, 0); // Player 2
+//   GameController.playTurn(0, 1); // Player 1
+//   GameController.playTurn(1, 1); // Player 2
+//   GameController.playTurn(0, 2); // Player 1
+// };
+
+// const testPlayerTwoWins = () => {
+//   GameController.playTurn(0, 0); // Player 1
+//   GameController.playTurn(1, 0); // Player 2
+//   GameController.playTurn(0, 1); // Player 1
+//   GameController.playTurn(1, 1); // Player 2
+//   GameController.playTurn(2, 0); // Player 1
+//   GameController.playTurn(1, 2); // Player 2
+// };
+
+// const testTieGame = () => {
+//   GameController.playTurn(0, 0); // Player 1
+//   GameController.playTurn(1, 1); // Player 2
+//   GameController.playTurn(0, 1); // Player 1
+//   GameController.playTurn(0, 2); // Player 2
+//   GameController.playTurn(2, 0); // Player 1
+//   GameController.playTurn(1, 0); // Player 2
+//   GameController.playTurn(1, 2); // Player 1
+//   GameController.playTurn(2, 1); // Player 2
+//   GameController.playTurn(2, 2); // Player 1
+// };
