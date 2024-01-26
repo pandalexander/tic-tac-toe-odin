@@ -1,3 +1,60 @@
+/* ****************************** */
+// DOM MANIPULATION TIME
+
+const boardCenterContainerElement = document.getElementById(
+  "board-center-container"
+);
+const narratorElement = document.getElementById("narrator");
+const boardContainerElement = document.getElementById("board-container");
+const topLeftElement = document.getElementById("top-left");
+const topMiddleElement = document.getElementById("top-middle");
+const topRightElement = document.getElementById("top-right");
+const leftElement = document.getElementById("left");
+const middleElement = document.getElementById("middle");
+const rightElement = document.getElementById("right");
+const bottomLeftElement = document.getElementById("bottom-left");
+const bottomMiddleElement = document.getElementById("bottom-middle");
+const bottomRightElement = document.getElementById("bottom-right");
+
+topLeftElement.addEventListener("click", function () {
+  GameController.playTurn(0, 0);
+});
+
+topMiddleElement.addEventListener("click", function () {
+  GameController.playTurn(0, 1);
+});
+
+topRightElement.addEventListener("click", function () {
+  GameController.playTurn(0, 2);
+});
+
+leftElement.addEventListener("click", function () {
+  GameController.playTurn(1, 0);
+});
+
+middleElement.addEventListener("click", function () {
+  GameController.playTurn(1, 1);
+});
+
+rightElement.addEventListener("click", function () {
+  GameController.playTurn(1, 2);
+});
+
+bottomLeftElement.addEventListener("click", function () {
+  GameController.playTurn(2, 0);
+});
+
+bottomMiddleElement.addEventListener("click", function () {
+  GameController.playTurn(2, 1);
+});
+
+bottomRightElement.addEventListener("click", function () {
+  GameController.playTurn(2, 2);
+});
+
+/* ****************************** */
+// Console Game Version To Refactor
+
 // Gameboard module to manage the tic-tac-toe game state
 
 const Gameboard = (function () {
@@ -29,6 +86,64 @@ const Gameboard = (function () {
     const boardWithValues = board.map((row) =>
       row.map((cell) => cell.getValue())
     );
+
+    topLeftElement.textContent =
+      boardWithValues[0][0] !== 0
+        ? boardWithValues[0][0] === 1
+          ? "X"
+          : "O"
+        : "";
+    topMiddleElement.textContent =
+      boardWithValues[0][1] !== 0
+        ? boardWithValues[0][1] === 1
+          ? "X"
+          : "O"
+        : "";
+    topRightElement.textContent =
+      boardWithValues[0][2] !== 0
+        ? boardWithValues[0][2] === 1
+          ? "X"
+          : "O"
+        : "";
+
+    leftElement.textContent =
+      boardWithValues[1][0] !== 0
+        ? boardWithValues[1][0] === 1
+          ? "X"
+          : "O"
+        : "";
+    middleElement.textContent =
+      boardWithValues[1][1] !== 0
+        ? boardWithValues[1][1] === 1
+          ? "X"
+          : "O"
+        : "";
+    rightElement.textContent =
+      boardWithValues[1][2] !== 0
+        ? boardWithValues[1][2] === 1
+          ? "X"
+          : "O"
+        : "";
+
+    bottomLeftElement.textContent =
+      boardWithValues[2][0] !== 0
+        ? boardWithValues[2][0] === 1
+          ? "X"
+          : "O"
+        : "";
+    bottomMiddleElement.textContent =
+      boardWithValues[2][1] !== 0
+        ? boardWithValues[2][1] === 1
+          ? "X"
+          : "O"
+        : "";
+    bottomRightElement.textContent =
+      boardWithValues[2][2] !== 0
+        ? boardWithValues[2][2] === 1
+          ? "X"
+          : "O"
+        : "";
+
     console.table(boardWithValues);
   };
 
@@ -111,7 +226,7 @@ const GameController = (function () {
   const printNewTurn = () => {
     if (!isGameOver) {
       Gameboard.printBoard();
-      console.log(`It is ${getActivePlayer().name}'s turn!`);
+      narratorElement.textContent = `It is ${getActivePlayer().name}'s turn!`;
     }
   };
 
@@ -163,12 +278,12 @@ const GameController = (function () {
       if (checkThrees() !== undefined) {
         let winningPlayer = checkThrees() === 1 ? playerOne : playerTwo;
         Gameboard.printBoard();
-        console.log(`${winningPlayer.name} wins!`);
+        narratorElement.textContent = `${winningPlayer.name} wins!`;
         winningPlayer.score++;
         isGameOver = true;
       } else if (checkThrees() === undefined && checkTie()) {
         Gameboard.printBoard();
-        console.log("Cat's Game - No One Wins");
+        narratorElement.textContent = "Cat's Game - No One Wins";
         makePlayerOneActive();
         isGameOver = true;
       }
@@ -181,11 +296,9 @@ const GameController = (function () {
     // Stops working if space has already been marked or if game is over
     if (!isGameOver) {
       if (!Gameboard.getBoard()[row][column].getValue()) {
-        console.log(
-          `${
-            getActivePlayer().name
-          } marked the square located at row ${row} and column ${column}.`
-        );
+        narratorElement.textContent = `${
+          getActivePlayer().name
+        } marked the square located at row ${row} and column ${column}.`;
         Gameboard.markCell(row, column, getActivePlayer().value);
         switchActivePlayer();
         checkForWin();
