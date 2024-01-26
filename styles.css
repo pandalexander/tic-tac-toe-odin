@@ -21,8 +21,18 @@
   margin-left: auto;
   margin-right: auto;
   display: grid;
-  grid-template-columns: repeat(3, 200px);
-  grid-template-rows: repeat(3, 200px);
+  grid-template-columns: repeat(3, 25vw);
+  grid-template-rows: repeat(3, 25vw);
+}
+
+@media only screen and (min-width: 600px) {
+  #board-container {
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 170px);
+    grid-template-rows: repeat(3, 170px);
+  }
 }
 
 .box:hover {
